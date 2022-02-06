@@ -8,6 +8,15 @@ export default function Films_list() {
     JSON.parse(localStorage.getItem("films") || "[]")
   );
 
+  function deleteFilm(id: any) {
+    setFilms(films.filter((item) => item._id !== id));
+    const localStorageFilms = JSON.parse(localStorage.getItem("films") || "[]");
+    const filteredFilms = JSON.stringify(
+      localStorageFilms.filter((item: { _id: any }) => item._id !== id)
+    );
+    localStorage.setItem("films", filteredFilms);
+  }
+
   return (
     <>
       {films.length === 0 ? (
@@ -17,7 +26,7 @@ export default function Films_list() {
       ) : (
         <Grid justify="space-around">
           {films.map((item) => (
-            <FilmCard film={item} key={item._id} />
+            <FilmCard film={item} key={item._id} deleteFilm={deleteFilm} />
           ))}
         </Grid>
       )}

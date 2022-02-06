@@ -1,0 +1,15 @@
+.forms_bg {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.form_position {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.btn {
+  text-align: center;
+  margin: 20px;
+}

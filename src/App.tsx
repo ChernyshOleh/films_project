@@ -5,6 +5,8 @@ import Films_list from "./components/Films_list";
 import Header from "./components/Header";
 import { films } from "./data";
 import FilmDetails from "./components/FilmDetails";
+import AddFilm from "./components/AddFilm";
+import EditFilm from "./components/EditFilm";
 
 function App() {
   useEffect(() => {
@@ -20,10 +22,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Films_list />} />
-        <Route
-          path="/film_details/:id"
-          element={<FilmDetails films={films} />}
-        />
+        <Route path="/film_details/:id" element={<FilmDetails />} />
+        <Route path="/add_film" element={<AddFilm />} />
+        <Route path="/edit_film/:id" element={<EditFilm />} />
       </Routes>
     </div>
   );

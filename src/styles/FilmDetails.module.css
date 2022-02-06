@@ -1,0 +1,12 @@
+.filmDetailsStyles {
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  display: flex;
+  border-radius: 10px;
+}
+
+.imgStyles {
+  width: 300px;
+  margin: 20px;
+}

@@ -20,7 +20,9 @@ export default function Header() {
       <Link to={"/"}>
         <Button {...btn_styles}>Home</Button>
       </Link>
-      <Button {...btn_styles}>Add new film</Button>
+      <Link to={"/add_film"}>
+        <Button {...btn_styles}>Add new film</Button>
+      </Link>
     </Group>
   );
 }
