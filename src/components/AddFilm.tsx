@@ -1,7 +1,7 @@
 import { Button, Textarea, TextInput } from "@mantine/core";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import styles from "../styles/AddFilm.module.css";
+import styles from "../styles/Form.module.css";
 
 export default function AddFilm() {
   const [form, setForm] = useState({
@@ -15,7 +15,7 @@ export default function AddFilm() {
     description: "",
   });
 
-  function sendData(e: any) {
+  function sendData() {
     const ls = JSON.parse(localStorage.getItem("films") || "[]");
 
     localStorage.setItem("films", JSON.stringify([...ls, form]));
@@ -70,11 +70,15 @@ export default function AddFilm() {
         />
       </form>
       <div className={styles.btn}>
-        <Link to={"/"}>
-          <Button color="teal" size="lg" onClick={sendData}>
-            Apply
-          </Button>
-        </Link>
+        <Button
+          color="teal"
+          size="lg"
+          onClick={sendData}
+          component={Link}
+          to={"/"}
+        >
+          Apply
+        </Button>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import { Film } from "../types";
 import { Link, useParams } from "react-router-dom";
 import { Button, Textarea, TextInput } from "@mantine/core";
 import { useState } from "react";
-import styles from "../styles/AddFilm.module.css";
+import styles from "../styles/Form.module.css";
 
 export default function EditFilm() {
   const { id } = useParams();
@@ -64,11 +64,9 @@ export default function EditFilm() {
         />
       </form>
       <div className={styles.btn}>
-        <Link to={"/"}>
-          <Button color="teal" size="lg" onClick={edit}>
-            Apply
-          </Button>
-        </Link>
+        <Button color="teal" size="lg" onClick={edit} component={Link} to={"/"}>
+          Apply
+        </Button>
       </div>
     </div>
   );
