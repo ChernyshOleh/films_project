@@ -28,17 +28,17 @@ function App() {
     <AuthContext.Provider value={{ login, logout, token, isAuthenticated }}>
       <div className="main">
         <Header />
+        <Routes>
+          <Route path="/" element={<Films_list />} />
+          <Route path="/film_details/:id" element={<FilmDetails />} />
+        </Routes>
         {isAuthenticated ? (
           <Routes>
-            <Route path="/" element={<Films_list />} />
-            <Route path="/film_details/:id" element={<FilmDetails />} />
             <Route path="/add_film" element={<AddFilm />} />
             <Route path="/edit_film/:id" element={<EditFilm />} />
           </Routes>
         ) : (
           <Routes>
-            <Route path="/" element={<Films_list />} />
-            <Route path="/film_details/:id" element={<FilmDetails />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
           </Routes>
