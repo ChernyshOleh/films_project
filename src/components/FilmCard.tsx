@@ -5,19 +5,19 @@ import { AuthContext } from "../context/AuthContext";
 
 export default function FilmCard({ film, deleteFilm }: any) {
   const auth = useContext(AuthContext);
-  if (auth.isAuthenticated) {
-    return (
-      <Grid.Col span={1}>
-        <Card>
-          <Card.Section>
-            <Link to={`/film_details/${film._id}`}>
-              <Image src={film.img} />
-            </Link>
-          </Card.Section>
-          <Group style={{ marginBottom: 5 }}>
-            <Text weight={800}>{film.title}</Text>
-          </Group>
-          <Text>by {film.director}</Text>
+  return (
+    <Grid.Col span={1}>
+      <Card>
+        <Card.Section>
+          <Link to={`/film_details/${film._id}`}>
+            <Image src={film.img} />
+          </Link>
+        </Card.Section>
+        <Group style={{ marginBottom: 5 }}>
+          <Text weight={800}>{film.title}</Text>
+        </Group>
+        <Text>by {film.director}</Text>
+        {auth.isAdmin && (
           <Group style={{ marginTop: "10px" }} grow>
             <Button
               variant="filled"
@@ -38,22 +38,7 @@ export default function FilmCard({ film, deleteFilm }: any) {
               Delete
             </Button>
           </Group>
-        </Card>
-      </Grid.Col>
-    );
-  }
-  return (
-    <Grid.Col span={1}>
-      <Card>
-        <Card.Section>
-          <Link to={`/film_details/${film._id}`}>
-            <Image src={film.img} />
-          </Link>
-        </Card.Section>
-        <Group style={{ marginBottom: 5 }}>
-          <Text weight={800}>{film.title}</Text>
-        </Group>
-        <Text>by {film.director}</Text>
+        )}
       </Card>
     </Grid.Col>
   );

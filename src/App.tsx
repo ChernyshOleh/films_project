@@ -11,6 +11,7 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import { useAuth } from "./hooks/auth.hook";
 import { AuthContext } from "./context/AuthContext";
+import { localStorageUsers } from "./localStorageData";
 
 function App() {
   useEffect(() => {
@@ -21,18 +22,26 @@ function App() {
     }
   }, []);
 
-  const { login, logout, token } = useAuth();
+  const { login, logout, token, isAdmin } = useAuth();
   const isAuthenticated = !!token;
 
   return (
-    <AuthContext.Provider value={{ login, logout, token, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{
+        login,
+        logout,
+        token,
+        isAuthenticated,
+        isAdmin,
+      }}
+    >
       <div className="main">
         <Header />
         <Routes>
           <Route path="/" element={<Films_list />} />
           <Route path="/film_details/:id" element={<FilmDetails />} />
         </Routes>
-        {isAuthenticated ? (
+        {isAuthenticated && isAdmin ? (
           <Routes>
             <Route path="/add_film" element={<AddFilm />} />
             <Route path="/edit_film/:id" element={<EditFilm />} />

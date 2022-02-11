@@ -3,11 +3,11 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import styles from "../styles/Form.module.css";
 import { useNavigate } from "react-router-dom";
+import { localStorageUsers } from "../localStorageData";
 
 export default function LoginForm() {
   let navigate = useNavigate();
   const auth = useContext(AuthContext);
-  const users = JSON.parse(localStorage.getItem("users") || "[]");
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -20,11 +20,11 @@ export default function LoginForm() {
   }
 
   function loginHandler() {
-    let user = users.find(
+    let user = localStorageUsers.find(
       (item: { email: string }) => item.email === form.email
     );
     if (user && user.password === form.password) {
-      auth.login(Date.now());
+      auth.login(Date.now(), user.isAdmin);
       navigate("/");
     } else {
       alert("Wrong email or password");

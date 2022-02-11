@@ -18,33 +18,31 @@ const header_styles = {
 
 export default function Header() {
   const auth = useContext(AuthContext);
-
-  if (auth.isAuthenticated) {
-    return (
-      <Group style={header_styles} spacing="xl">
-        <Button {...btn_styles} component={Link} to={"/"}>
-          Home
-        </Button>
-        <Button {...btn_styles} component={Link} to={"/add_film"}>
-          Add new film
-        </Button>
-        <Button {...btn_styles} component={Link} to={"/"} onClick={auth.logout}>
-          Log out
-        </Button>
-      </Group>
-    );
-  }
   return (
     <Group style={header_styles} spacing="xl">
       <Button {...btn_styles} component={Link} to={"/"}>
         Home
       </Button>
-      <Button {...btn_styles} component={Link} to={"/login"}>
-        Log in
-      </Button>
-      <Button {...btn_styles} component={Link} to={"/register"}>
-        Register
-      </Button>
+      {auth.isAdmin && (
+        <Button {...btn_styles} component={Link} to={"/add_film"}>
+          Add new film
+        </Button>
+      )}
+      {!auth.isAuthenticated && (
+        <>
+          <Button {...btn_styles} component={Link} to={"/login"}>
+            Log in
+          </Button>
+          <Button {...btn_styles} component={Link} to={"/register"}>
+            Register
+          </Button>
+        </>
+      )}
+      {auth.isAuthenticated && (
+        <Button {...btn_styles} component={Link} to={"/"} onClick={auth.logout}>
+          Log out
+        </Button>
+      )}
     </Group>
   );
 }
