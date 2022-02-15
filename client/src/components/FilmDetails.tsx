@@ -2,11 +2,18 @@ import { Film } from "../types";
 import { useParams } from "react-router-dom";
 import { Group, Image } from "@mantine/core";
 import styles from "../styles/FilmDetails.module.css";
+import { getFilm } from "../filmsService";
+import { useEffect, useState } from "react";
 
 export default function FilmDetails() {
   const { id } = useParams();
-  const films = JSON.parse(localStorage.getItem("films") || "[]");
-  const film = films.find((item: Film) => item._id == id);
+  const [film, setFilm] = useState<Film>(Object);
+  useEffect(() => {
+    async function fetchData() {
+      setFilm(await getFilm(id));
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className={styles.filmDetailsStyles}>

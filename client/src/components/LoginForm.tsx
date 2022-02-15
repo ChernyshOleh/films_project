@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import styles from "../styles/Form.module.css";
 import { useNavigate } from "react-router-dom";
-import { localStorageUsers } from "../localStorageData";
+import { login } from "../authService";
 
 export default function LoginForm() {
   let navigate = useNavigate();
@@ -19,16 +19,10 @@ export default function LoginForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function loginHandler() {
-    let user = localStorageUsers.find(
-      (item: { email: string }) => item.email === form.email
-    );
-    if (user && user.password === form.password) {
-      auth.login(Date.now(), user.isAdmin);
-      navigate("/");
-    } else {
-      alert("Wrong email or password");
-    }
+  async function loginHandler() {
+    const userData = await login(form.email, form.password);
+    auth.login(userData.token, userData.isAdmin);
+    navigate("/");
   }
 
   return (

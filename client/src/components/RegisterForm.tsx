@@ -4,13 +4,14 @@ import { AuthContext } from "../context/AuthContext";
 import styles from "../styles/Form.module.css";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { localStorageUsers } from "../localStorageData";
+import { register } from "../authService";
 
 export default function RegisterForm() {
   const auth = useContext(AuthContext);
   let navigate = useNavigate();
   const form = useForm({
     initialValues: {
+      id: Date.now(),
       username: "",
       email: "",
       password: "",
@@ -20,39 +21,23 @@ export default function RegisterForm() {
     validationRules: {
       username: (value) => value.trim().length >= 2,
       email: (value) => /^\S+@\S+$/.test(value),
-      password: (value) => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(value),
+      password: (value) =>
+        /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}/.test(value),
     },
   });
 
-  function sendData(username: string, email: string) {
+  async function sendData(username: string, email: string) {
     if (
-      localStorageUsers.find(
-        (item: { username: string }) => item.username === username
-      )
-    ) {
-      alert(`Username: ${username} already in use`);
-    } else if (
-      localStorageUsers.find((item: { email: string }) => item.email === email)
-    ) {
-      alert(`Email: ${email} already in use`);
-      //For admin
-    } else if (
       form.values.username === "admin" &&
       form.values.email === "admin@admin" &&
-      form.values.password === "12345q"
+      form.values.password === "12345Qq"
     ) {
       form.values.isAdmin = true;
       auth.login(Date.now(), form.values.isAdmin);
-      localStorage.setItem(
-        "users",
-        JSON.stringify([...localStorageUsers, form.values])
-      );
+      await register(form.values);
       navigate("/");
     } else {
-      localStorage.setItem(
-        "users",
-        JSON.stringify([...localStorageUsers, form.values])
-      );
+      await register(form.values);
       auth.login(Date.now(), form.values.isAdmin);
       navigate("/");
     }
@@ -81,7 +66,7 @@ export default function RegisterForm() {
         <PasswordInput
           placeholder="Password"
           label="Password"
-          description="Password must include at least one letter, number and special character"
+          description="Password must be at least 6 characters long and have at least 1 number and an uppercase letter"
           required
           {...form.getInputProps("password")}
         />

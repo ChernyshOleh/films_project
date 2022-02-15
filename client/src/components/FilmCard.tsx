@@ -2,8 +2,9 @@ import { Card, Image, Text, Button, Group, Grid } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { deleteFilm } from "../filmsService";
 
-export default function FilmCard({ film, deleteFilm }: any) {
+export default function FilmCard({ film }: any) {
   const auth = useContext(AuthContext);
   return (
     <Grid.Col span={1}>
