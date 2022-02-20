@@ -3,6 +3,7 @@ import FilmCard from "./FilmCard";
 import { Film } from "../types";
 import { useEffect, useState } from "react";
 import { getFilms } from "../filmsService";
+import { deleteFilm } from "../filmsService";
 
 export default function Films_list() {
   const [films, setFilms] = useState<Film[]>([]);
@@ -15,6 +16,12 @@ export default function Films_list() {
     fetchData();
   }, [setFilms]);
 
+  function removeFilm(id: any) {
+    deleteFilm(id);
+    const updatedFilms = films.filter((film) => film._id !== Number(id));
+    setFilms(updatedFilms);
+  }
+
   return (
     <>
       {films.length === 0 ? (
@@ -24,7 +31,7 @@ export default function Films_list() {
       ) : (
         <Grid justify="space-around">
           {films.map((item) => (
-            <FilmCard film={item} key={item._id} deleteFilm={() => {}} />
+            <FilmCard film={item} key={item._id} removeFilm={removeFilm} />
           ))}
         </Grid>
       )}

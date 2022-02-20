@@ -2,7 +2,7 @@
   "films": [
     {
       "_id": 1,
-      "title": "Legend of the Seekerrrrr",
+      "title": "Legend of the Seeker",
       "director": "Stephen Tolkin",
       "duration": 93,
       "price": 48.3,
@@ -22,7 +22,7 @@
     },
     {
       "_id": 3,
-      "title": "Rise of the Legendddd",
+      "title": "Rise of the Legend",
       "director": "Teng Bee",
       "duration": 110,
       "price": 55.2,
@@ -48,27 +48,6 @@
       "email": "admin@admin",
       "password": "12345Qq",
       "isAdmin": true
-    },
-    {
-      "id": 1644940403130,
-      "username": "aaa",
-      "email": "aaa@dd",
-      "password": "Aaaaaa11111",
-      "isAdmin": false
-    },
-    {
-      "id": 1644942261933,
-      "username": "test",
-      "email": "test@test",
-      "password": "12345Qq",
-      "isAdmin": false
-    },
-    {
-      "id": 1644944500976,
-      "username": "qwe",
-      "email": "qwe@wer",
-      "password": "Qesdt456",
-      "isAdmin": false
     }
   ]
 }

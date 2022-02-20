@@ -2,9 +2,8 @@ import { Card, Image, Text, Button, Group, Grid } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { deleteFilm } from "../filmsService";
 
-export default function FilmCard({ film }: any) {
+export default function FilmCard({ film, removeFilm }: any) {
   const auth = useContext(AuthContext);
   return (
     <Grid.Col span={1}>
@@ -34,7 +33,7 @@ export default function FilmCard({ film }: any) {
               variant="filled"
               color="pink"
               radius="xs"
-              onClick={() => deleteFilm(film._id)}
+              onClick={() => removeFilm(film._id)}
             >
               Delete
             </Button>
