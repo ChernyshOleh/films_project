@@ -1,10 +1,16 @@
 export interface Film {
-  _id: number | string;
+  _id: number;
   title: string;
+  year: string;
   director: string;
   duration: number;
-  price: number;
   img: string;
-  featured: boolean;
   description: string;
+}
+
+export interface CurrentUser {
+  username: string;
+  email: string;
+  isAdmin: boolean;
+  token: string;
 }

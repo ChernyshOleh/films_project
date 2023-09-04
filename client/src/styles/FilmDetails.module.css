@@ -1,4 +1,4 @@
-.filmDetailsStyles {
+/* .filmDetailsStyles {
   margin: 0 auto;
   padding: 20px;
   background-color: white;
@@ -9,4 +9,62 @@
 .imgStyles {
   width: 300px;
   margin: 20px;
+} */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background-color: #f0ead6;
+  padding: 2rem;
+  border: 2px solid black;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .details {
+    align-items: center;
+  }
+}
+
+.img {
+  outline: 1px solid black;
+}
+
+@media (min-width: 768px) {
+  .img {
+    max-width: 25rem;
+    margin-right: 2rem;
+  }
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.year {
+  margin-top: 0.5rem;
+}
+
+.director {
+  margin-top: 0.5rem;
+}
+
+.duration {
+  margin-top: 0.5rem;
+}
+
+.description {
+  margin-top: 1rem;
+  text-align: justify;
 }

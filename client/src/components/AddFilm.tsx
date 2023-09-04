@@ -1,22 +1,22 @@
 import { Alert, Button, Textarea, TextInput } from "@mantine/core";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "../styles/Form.module.css";
 import { addFilm } from "../filmsService";
 import { Film } from "../types";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/storeTypes";
 
 export default function AddFilm() {
   const navigate = useNavigate();
-  const auth = useContext(AuthContext);
+  const user = useSelector((state: RootState) => state.user.user);
   const [form, setForm] = useState<Film>({
     _id: Date.now(),
     title: "",
+    year: "",
     director: "",
     duration: 0,
-    price: 0,
     img: "",
-    featured: false,
     description: "",
   });
 
@@ -25,7 +25,7 @@ export default function AddFilm() {
 
     setForm({ ...form, [e.target.name]: e.target.value });
   }
-  if (auth.isAdmin) {
+  if (user.isAdmin) {
     return (
       <div className={styles.forms_bg}>
         <form className={styles.form_position}>
@@ -34,6 +34,12 @@ export default function AddFilm() {
             label="Title"
             onChange={(e) => handleChange(e)}
             value={form.title}
+          />
+          <TextInput
+            name="year"
+            label="Year"
+            onChange={(e) => handleChange(e)}
+            value={form.year}
           />
           <TextInput
             name="director"
@@ -47,13 +53,6 @@ export default function AddFilm() {
             type="number"
             onChange={(e) => handleChange(e)}
             value={form.duration}
-          />
-          <TextInput
-            name="price"
-            label="Price"
-            type="number"
-            onChange={(e) => handleChange(e)}
-            value={form.price}
           />
           <TextInput
             name="img"
@@ -76,8 +75,6 @@ export default function AddFilm() {
               await addFilm(form);
               navigate("/");
             }}
-            // component={Link}
-            // to={"/"}
           >
             Apply
           </Button>

@@ -1,21 +1,22 @@
 import { Film } from "../types";
 import { useParams } from "react-router-dom";
 import { Alert, Button, Textarea, TextInput } from "@mantine/core";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../styles/Form.module.css";
 import { editFilm, getFilm } from "../filmsService";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/storeTypes";
 
 export default function EditFilm() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const auth = useContext(AuthContext);
+  const user = useSelector((state: RootState) => state.user.user);
 
   let [form, setForm] = useState<Film>(Object);
   useEffect(() => {
     async function fetchData() {
-      const data = await getFilm(id);
+      const data = await getFilm(Number(id));
       setForm(data);
     }
     fetchData();
@@ -25,7 +26,7 @@ export default function EditFilm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  if (auth.isAdmin) {
+  if (user.isAdmin) {
     return (
       <div className={styles.forms_bg}>
         <form className={styles.form_position}>
@@ -33,6 +34,12 @@ export default function EditFilm() {
             name="title"
             label="Title"
             defaultValue={form.title}
+            onChange={(e) => handleChange(e)}
+          />
+          <TextInput
+            name="year"
+            label="Year"
+            defaultValue={form.year}
             onChange={(e) => handleChange(e)}
           />
           <TextInput
@@ -46,13 +53,6 @@ export default function EditFilm() {
             label="Duration"
             type="number"
             defaultValue={form.duration}
-            onChange={(e) => handleChange(e)}
-          />
-          <TextInput
-            name="price"
-            label="Price"
-            type="number"
-            defaultValue={form.price}
             onChange={(e) => handleChange(e)}
           />
           <TextInput
@@ -73,7 +73,7 @@ export default function EditFilm() {
             color="teal"
             size="lg"
             onClick={async () => {
-              await editFilm(id, form);
+              await editFilm(Number(id), form);
               navigate("/");
             }}
           >

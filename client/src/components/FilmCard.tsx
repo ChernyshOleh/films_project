@@ -1,45 +1,42 @@
-import { Card, Image, Text, Button, Group, Grid } from "@mantine/core";
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import styles from "../styles/Films.module.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/storeTypes";
+import { useAppDispatch } from "../store/store";
+import { delFilm } from "../store/films/filmsSlice";
+import { Film } from "../types";
 
-export default function FilmCard({ film, removeFilm }: any) {
-  const auth = useContext(AuthContext);
+interface Props {
+  film: Film;
+}
+
+export default function FilmCard({ film }: Props) {
+  const dispatch = useAppDispatch();
+  const user = useSelector((state: RootState) => state.user.user);
+  const navigate = useNavigate();
   return (
-    <Grid.Col span={1}>
-      <Card>
-        <Card.Section>
-          <Link to={`/film_details/${film._id}`}>
-            <Image src={film.img} />
+    <div className={styles.film}>
+      <img
+        src={film.img}
+        alt={film.title}
+        className={styles.poster}
+        onClick={() => navigate(`/film_details/${film._id}`)}
+      />
+      <div className={styles.title}>{film.title}</div>
+      <div className={styles.director}>Directed by {film.director}</div>
+      {user.isAdmin && (
+        <div className={styles.btns}>
+          <Link to={`/edit_film/${film._id}`}>
+            <button className={styles.editBtn}>edit</button>
           </Link>
-        </Card.Section>
-        <Group style={{ marginBottom: 5 }}>
-          <Text weight={800}>{film.title}</Text>
-        </Group>
-        <Text>by {film.director}</Text>
-        {auth.isAdmin && (
-          <Group style={{ marginTop: "10px" }} grow>
-            <Button
-              variant="filled"
-              color="teal"
-              radius="xs"
-              component={Link}
-              to={`/edit_film/${film._id}`}
-            >
-              Edit
-            </Button>
-
-            <Button
-              variant="filled"
-              color="pink"
-              radius="xs"
-              onClick={() => removeFilm(film._id)}
-            >
-              Delete
-            </Button>
-          </Group>
-        )}
-      </Card>
-    </Grid.Col>
+          <button
+            className={styles.deleteBtn}
+            onClick={() => dispatch(delFilm(film._id))}
+          >
+            delete
+          </button>
+        </div>
+      )}
+    </div>
   );
 }

@@ -1,13 +1,10 @@
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
-import { AuthContext } from "../context/AuthContext";
 import styles from "../styles/Form.module.css";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import { register } from "../authService";
 
 export default function RegisterForm() {
-  const auth = useContext(AuthContext);
   let navigate = useNavigate();
   const form = useForm({
     initialValues: {
@@ -26,28 +23,22 @@ export default function RegisterForm() {
     },
   });
 
-  async function sendData(username: string, email: string) {
-    if (
-      form.values.username === "admin" &&
-      form.values.email === "admin@admin" &&
-      form.values.password === "12345Qq"
-    ) {
+  async function sendData() {
+    if (form.values.username.includes("admin")) {
       form.values.isAdmin = true;
-      auth.login(Date.now(), form.values.isAdmin);
       await register(form.values);
-      navigate("/");
+      navigate("/login");
     } else {
       await register(form.values);
-      auth.login(Date.now(), form.values.isAdmin);
-      navigate("/");
+      navigate("/login");
     }
   }
 
   return (
     <div className={styles.forms_bg}>
       <form
-        onSubmit={form.onSubmit((values) => {
-          sendData(values.username, values.email);
+        onSubmit={form.onSubmit(() => {
+          sendData();
         })}
         className={styles.form_position}
       >
@@ -71,7 +62,7 @@ export default function RegisterForm() {
           {...form.getInputProps("password")}
         />
         <div className={styles.btn}>
-          <Button color="teal" type="submit">
+          <Button color="dark" type="submit">
             Register
           </Button>
         </div>

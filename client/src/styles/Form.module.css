@@ -1,15 +1,15 @@
 .forms_bg {
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
+  background-color: #fff;
+  border: 2px solid black;
+  padding: 2rem;
 }
 
 .form_position {
-  width: 60%;
+  width: 40%;
   margin: 0 auto;
 }
 
 .btn {
   text-align: center;
-  margin: 20px;
+  margin-top: 2rem;
 }

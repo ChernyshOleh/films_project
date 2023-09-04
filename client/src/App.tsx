@@ -7,35 +7,44 @@ import AddFilm from "./components/AddFilm";
 import EditFilm from "./components/EditFilm";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
-import { useAuth } from "./hooks/auth.hook";
-import { AuthContext } from "./context/AuthContext";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "./store/user/userSlice";
 
 function App() {
-  const { login, logout, token, isAdmin } = useAuth();
-  const isAuthenticated = !!token;
+  // const { login, logout, token, isAdmin } = useAuth();
+  // const isAuthenticated = !!token;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+    if (userData && userData.token) {
+      dispatch(loginUser(userData));
+    }
+  }, []);
 
   return (
-    <AuthContext.Provider
-      value={{
-        login,
-        logout,
-        token,
-        isAuthenticated,
-        isAdmin,
-      }}
-    >
-      <div className="main">
-        <Header />
-        <Routes>
-          <Route path="/add_film" element={<AddFilm />} />
-          <Route path="/edit_film/:id" element={<EditFilm />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/" element={<Films_list />} />
-          <Route path="/film_details/:id" element={<FilmDetails />} />{" "}
-        </Routes>
-      </div>
-    </AuthContext.Provider>
+    // <AuthContext.Provider
+    //   value={{
+    //     login,
+    //     logout,
+    //     token,
+    //     isAuthenticated,
+    //     isAdmin,
+    //   }}
+    // >
+    <div className="main">
+      <Header />
+      <Routes>
+        <Route path="/add_film" element={<AddFilm />} />
+        <Route path="/edit_film/:id" element={<EditFilm />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/" element={<Films_list />} />
+        <Route path="/film_details/:id" element={<FilmDetails />} />
+      </Routes>
+    </div>
+    // </AuthContext.Provider>
   );
 }
 

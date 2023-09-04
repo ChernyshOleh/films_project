@@ -1,26 +1,19 @@
-import { Alert, Grid } from "@mantine/core";
+import { Alert } from "@mantine/core";
 import FilmCard from "./FilmCard";
-import { Film } from "../types";
-import { useEffect, useState } from "react";
-import { getFilms } from "../filmsService";
-import { deleteFilm } from "../filmsService";
+import { useEffect } from "react";
+import styles from "../styles/Films.module.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/storeTypes";
+import { useAppDispatch } from "../store/store";
+import { fetchFilms } from "../store/films/filmsSlice";
 
 export default function Films_list() {
-  const [films, setFilms] = useState<Film[]>([]);
+  const films = useSelector((state: RootState) => state.films.films);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    async function fetchData() {
-      const data = await getFilms();
-      setFilms(data);
-    }
-    fetchData();
-  }, [setFilms]);
-
-  function removeFilm(id: any) {
-    deleteFilm(id);
-    const updatedFilms = films.filter((film) => film._id !== Number(id));
-    setFilms(updatedFilms);
-  }
+    dispatch(fetchFilms());
+  }, []);
 
   return (
     <>
@@ -29,11 +22,11 @@ export default function Films_list() {
           No films in database yet
         </Alert>
       ) : (
-        <Grid justify="space-around">
-          {films.map((item) => (
-            <FilmCard film={item} key={item._id} removeFilm={removeFilm} />
+        <div className={styles.grid}>
+          {films.map((film) => (
+            <FilmCard film={film} key={film._id} />
           ))}
-        </Grid>
+        </div>
       )}
     </>
   );

@@ -75,13 +75,18 @@ app.post("/login", async (req, res) => {
   await db.read();
   const user = db.data.users.find((item) => item.email === req.body.email);
   if (!user) {
-    res.status(400).json({ message: "Email not found" });
-  }
-  if (user && user.password !== req.body.password) {
+    res.json({ message: "Email not found" });
+  } else if (user && user.password !== req.body.password) {
     res.json({ message: "Wrong password" });
+  } else {
+    var token = jwt.sign({ id: user.id }, "shhhhh");
+    res.json({
+      username: user.username,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token,
+    });
   }
-  var token = jwt.sign({ id: user.id }, "shhhhh");
-  res.json({ token: token, isAdmin: user.isAdmin });
 });
 
 app.listen(port, () => {
